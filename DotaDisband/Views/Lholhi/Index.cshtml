@@ -1,0 +1,114 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+<style>
+        /* Adicionando imagem de fundo para toda a página */
+        body {
+            background-image: url('img/wpp.jpg'); /* Insira o caminho da imagem */
+            background-size: cover; /* Garante que a imagem cubra toda a área */
+            background-position: center; /* Centraliza a imagem */
+            background-attachment: fixed; /* Garante que a imagem não se mova ao rolar a página */
+            height: 100vh; /* Garantir que a imagem cubra toda a altura da tela */
+            margin: 0; /* Remover margens padrão */
+        }
+    </style>
+
+    @{
+    var palavras = ViewData["Palavras"] as List<string>;
+    var paginaAtual = (int)ViewData["PaginaAtual"];
+    var totalPaginas = (int)ViewData["TotalPaginas"];
+}
+
+<h2>Palhavas Salvas:</h2>
+
+@if (palavras != null && palavras.Count > 0)
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Palhavas</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < palavras.Count; i++)
+            {
+                <tr>
+                    <td>@((paginaAtual - 1) * 5 + i + 1)</td>  <!-- Exibindo a numeração correta -->
+                    <td>@palavras[i]</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <!-- Paginação -->
+    <nav>
+        <ul class="pagination">
+            @if (paginaAtual > 1)
+            {
+                <li class="page-item">
+                    <a class="page-link" href="@Url.Action("Index", new { pagina = paginaAtual - 1 })">Anterior</a>
+                </li>
+            }
+            else
+            {
+                <li class="page-item disabled">
+                    <span class="page-link">Anterior</span>
+                </li>
+            }
+
+            @for (int i = 1; i <= totalPaginas; i++)
+            {
+                <li class="page-item @(i == paginaAtual ? "active" : "")">
+                    <a class="page-link" href="@Url.Action("Index", new { pagina = i })">@i</a>
+                </li>
+            }
+
+            @if (paginaAtual < totalPaginas)
+            {
+                <li class="page-item">
+                    <a class="page-link" href="@Url.Action("Index", new { pagina = paginaAtual + 1 })">Próximo</a>
+                </li>
+            }
+            else
+            {
+                <li class="page-item disabled">
+                    <span class="page-link">Próximo</span>
+                </li>
+            }
+        </ul>
+    </nav>
+}
+
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal">
+    Contchibuir
+</button>
+
+<div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <!-- Cabeçalho do Modal -->
+            <div class="modal-header">
+                <h5 class="modal-title" id="myModalLabel">Atitione a palhava</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+            </div>
+
+            <!-- Corpo do Modal -->
+            <div class="modal-body">
+                <!-- Formulário para enviar a palavra para a controller -->
+                <form id="palavraForm" method="post" asp-action="SalvarPalavra" asp-controller="Lholhi">
+                    <div class="mb-3">
+                        <input type="text" class="form-control" id="inputPalavra" name="palavra" placeholder="Dixite a palhava" required>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Rodapé do Modal -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fetchar</button>
+                <button type="submit" form="palavraForm" class="btn btn-primary">Salvar Palhavas</button>
+            </div>
+        </div>
+    </div>
+</div>
