@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Lholhu</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,Helvetica,sans-serif;
+}
+
+body{
+    background:linear-gradient(135deg,#1d2671,#0eb47d);
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:40px;
+}
+
+.container{
+    width:100%;
+    max-width:1100px;
+    background:rgba(255,255,255,.10);
+    backdrop-filter:blur(10px);
+    border-radius:20px;
+    padding:30px;
+    color:white;
+    box-shadow:0 15px 40px rgba(0,0,0,.3);
+}
+
+h1{
+    text-align:center;
+    margin-bottom:25px;
+}
+
+.topo{
+    display:flex;
+    gap:30px;
+    align-items:center;
+    margin-bottom:30px;
+}
+
+.imagem{
+    width:250px;
+    height:250px;
+    border-radius:15px;
+    border:2px dashed rgba(255,255,255,.3);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:white;
+    font-size:20px;
+}
+
+.painel{
+    flex:1;
+}
+
+input{
+    width:100%;
+    padding:14px;
+    margin-bottom:15px;
+    border:none;
+    border-radius:10px;
+    font-size:16px;
+}
+
+button{
+    border:none;
+    border-radius:10px;
+    padding:14px 25px;
+    cursor:pointer;
+    font-size:16px;
+    background:#00d68f;
+    color:white;
+    transition:.3s;
+}
+
+button:hover{
+    transform:scale(1.05);
+}
+
+#usuario{
+    font-size:20px;
+    margin-bottom:20px;
+    font-weight:bold;
+    color:#ffe600;
+}
+
+.linha{
+    display:flex;
+    gap:15px;
+    align-items:center;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:30px;
+    background:white;
+    color:#333;
+    border-radius:10px;
+    overflow:hidden;
+}
+
+th{
+    background:#0b5ed7;
+    color:white;
+    padding:15px;
+}
+
+td{
+    padding:12px;
+    border-bottom:1px solid #ddd;
+}
+
+tr:hover{
+    background:#f4f4f4;
+}
+
+#areaSistema{
+    display:none;
+}
+
+@media(max-width:850px){
+
+.topo{
+    flex-direction:column;
+}
+
+.imagem{
+    width:100%;
+}
+
+.linha{
+    flex-direction:column;
+}
+
+button{
+    width:100%;
+}
+
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+    <h1>Cadastro de Palavras Lholhês</h1>
+
+    <div class="topo">
+
+        <div class="imagem">
+        </div>
+
+        <div class="painel">
+
+            <div id="login">
+                <input type="password" id="senha" placeholder="Digite a senha">
+                <button id="btnLogin"> Entrar </button>
+            </div>
+
+            <div id="areaSistema">
+
+                <div id="usuario"></div>
+                <div class="linha">
+                    <input id="palavraLholhes" placeholder="Digite aqui a palavra Lholhes">
+                    <button id="btnSalvar"> Salvar </button>
+                </div>
+
+                <input id="palavraportugues" placeholder="Digite aqui a palavra Real">
+            </div>
+
+        </div>
+
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Palavra em Lholhes</th>
+                <th>Palavra em Português</th>
+            </tr>
+        </thead>
+        <tbody id="grid">
+
+        </tbody>
+
+    </table>
+
+</div>
+
+<script>
+
+const SUPABASE_URL="https://wlqfowttvvvmpuqvcrxt.supabase.co";
+const SUPABASE_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndscWZvd3R0dnZ2bXB1cXZjcnh0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI4NTY5MDMsImV4cCI6MjA5ODQzMjkwM30.dHWUc2Y_YPDQPrffzG93sl4J_iLqWzybt2TmjA_zMUQ";
+
+const { createClient } = window.supabase;
+
+
+const cliente =  createClient(SUPABASE_URL, SUPABASE_KEY);
+
+</script>
+
+</body>
+</html>
+
+
+<script>
+
+    document.addEventListener("DOMContentLoaded", function () {
+        carregarGrid();
+    });
+    
+    let admin = false;
+
+    const btnLogin = document.getElementById("btnLogin");
+    const btnSalvar = document.getElementById("btnSalvar");
+
+    btnLogin.onclick = async () => {
+
+        const senha = document.getElementById("senha").value.trim();
+
+        if (senha === "lholhu") {
+
+            admin = false;
+
+            document.getElementById("login").style.display = "none";
+            document.getElementById("areaSistema").style.display = "block";
+            document.getElementById("usuario").innerHTML = "Um FDP qualquer";
+
+            carregarGrid();
+
+        }
+        else if (senha === "sgadminlholhu") {
+
+            admin = true;
+
+            document.getElementById("login").style.display = "none";
+            document.getElementById("areaSistema").style.display = "block";
+            document.getElementById("usuario").innerHTML = "Adm Pirocudo";
+
+            carregarGrid();
+
+        }
+        else{
+
+            alert("Senha inválida.");
+
+        }
+
+    };
+
+    btnSalvar.onclick = async () => {
+
+        const palavralholhes = document.getElementById("palavraLholhes").value.trim();
+        const palavraportugues = document.getElementById("palavraportugues").value.trim();
+
+        if(!palavralholhes || !palavraportugues){
+
+            alert("Preencha todos os campos.");
+
+            return;
+
+        }
+
+        const { error } = await cliente.from("palavras").insert([
+            {
+                palavralholhes,
+                palavraportugues
+            }
+        ]);
+
+        if(error){
+            alert(error.message);
+            return;
+        }
+
+        document.getElementById("palavraLholhes").value="";
+        document.getElementById("palavraportugues").value="";
+
+        carregarGrid();
+
+    };
+
+    async function carregarGrid(){
+
+        const { data, error } = await cliente.from("palavras").select("*").order("id",{ascending:false});
+
+        if(error){
+            alert(error.message);
+            return;
+        }
+
+        const grid = document.getElementById("grid");
+        grid.innerHTML="";
+        data.forEach(item=>{
+            grid.innerHTML += `
+                <tr>
+                    <td>${item.palavralholhes}</td>
+                    <td>${item.palavraportugues}</td>
+                </tr>
+            `;
+
+        });
+
+    }
+    </script>
