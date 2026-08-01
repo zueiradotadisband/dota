@@ -210,6 +210,59 @@ button{
 </div>
 
 <script>
+document.addEventListener("DOMContentLoaded", () => {
+    const palavras = [
+            ["DERNEBROSO", "tenebroso"],
+    ["QUANDIDADE", "quantidade"],
+    ["KALHA YASHA", "kaya yasha"],
+    ["FERVEREIRO", "fevereiro"],
+    ["DIVERENTE", "diferente"],
+    ["RUBITURA", "ruptura"],
+    ["DIVIGULDADE", "dificuldade"],
+    ["SUBERESTIMADO", "superestimado"],
+    ["CARFEÇAL", "cafezal"],
+    ["ATIFINHAR", "adivinhar"],
+    ["ESDADISTICA", "estatística"],
+    ["DAMBOR", "tambor"],
+    ["SURTINA", "surdina"],
+    ["GARREGUEI", "carreguei"],
+    ["BIOR", "pior"],
+    ["ME VUDI", "me fudi"],
+    ["JEGADA", "chegada"],
+    ["FUMITADO", "vomitado"],
+    ["INVERNO", "mapa CS"],
+    ["MAILHOR", "maior"],
+    ["VILHA", "filha"],
+    ["POTICIONAMENTO", "posicionamento"],
+    ["MARITIMICA", "marítima"],
+    ["LOBO", ""],
+    ["BESGOÇO", "pescoço"],
+    ["PROVIDO", "progrido"],
+    ["BIDBULL", "pitbull"],
+    ["BAI", "pai"],
+    ["INVERDEU", "inverteu"],
+    ["Bruno Tafares", "Tavares"],
+    ["Dameiti", "damage"],
+    ["Vente", "vende"],
+    ["clash rolhalhi", "Clash Royale"]
+    ];
+
+    const tbody = document.getElementById("grid");
+
+    palavras.forEach(([lholhes, portugues]) => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+            <td>${lholhes}</td>
+            <td>${portugues}</td>
+        `;
+        tbody.appendChild(tr);
+    });
+});
+</script>
+
+
+    
+<script>
 
 const SUPABASE_URL="https://wlqfowttvvvmpuqvcrxt.supabase.co";
 const SUPABASE_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndscWZvd3R0dnZ2bXB1cXZjcnh0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI4NTY5MDMsImV4cCI6MjA5ODQzMjkwM30.dHWUc2Y_YPDQPrffzG93sl4J_iLqWzybt2TmjA_zMUQ";
@@ -228,7 +281,7 @@ const cliente =  createClient(SUPABASE_URL, SUPABASE_KEY);
 <script>
 
     document.addEventListener("DOMContentLoaded", function () {
-        carregarGrid();
+       
     });
     
     let admin = false;
@@ -283,12 +336,11 @@ const cliente =  createClient(SUPABASE_URL, SUPABASE_KEY);
 
         }
 
-        const { error } = await cliente.from("palavras").insert([
-            {
-                palavralholhes,
-                palavraportugues
-            }
-        ]);
+       alert(
+        "🚨 A casa caiu, manhoo!\n\n" +
+        "A conta gratuita do banco de dados expirou. " +
+        "Não da pra adicionar, manda a palavra lholhes no wapp."
+    );
 
         if(error){
             alert(error.message);
